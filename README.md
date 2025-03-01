@@ -31,11 +31,11 @@ Ein Python-Programm zur Gesichtserkennung mit OpenCV.
    - [deploy.prototxt](https://github.com/opencv/opencv/blob/master/samples/dnn/face_detector/deploy.prototxt)
    - [res10_300x300_ssd_iter_140000.caffemodel](https://github.com/opencv/opencv_3rdparty/raw/dnn_samples_face_detector_20170830/res10_300x300_ssd_iter_140000.caffemodel)
 
-4. Modelle in den `models`-Ordner kopieren
+4. Modelle in den `src/models`-Ordner kopieren
 
 ## Verwendung
 ```bash
-python main.py
+python src/main.py
 ```
 
 ## Lizenz
