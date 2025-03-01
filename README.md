@@ -37,3 +37,6 @@ Ein Python-Programm zur Gesichtserkennung mit OpenCV.
 ```bash
 python main.py
 ```
+
+## Lizenz
+Dieses Projekt steht unter [MIT License](LICENSE)
