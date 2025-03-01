@@ -19,7 +19,6 @@ Ein Python-Programm zur Gesichtserkennung mit OpenCV.
 1. Repository klonen:
    ```bash
    git clone https://github.com/Changlai-Bao/Gesichtserkennung
-   cd Gesichtserkennung
    ```
 
 2. Abhängigkeiten installieren:
