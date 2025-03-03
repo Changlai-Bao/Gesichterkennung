@@ -2,7 +2,8 @@
 
 Ein Python-Programm zur Gesichtserkennung mit OpenCV.
 
-## Funktionen
+## ✨Funktionen
+
 - Verwendet zwei verschiedene Modelle:
   - Haar Cascade
   - Deep Neural Network (DNN)
@@ -10,18 +11,22 @@ Ein Python-Programm zur Gesichtserkennung mit OpenCV.
 - Beschriftet Gesichter auf Deutsch
 - Beenden mit der Taste 'q'
 
-## Voraussetzungen
+## 📁Voraussetzungen
+
 - Python 3.13.2
 - OpenCV
 - NumPy
 
-## Installation
+## 🛠️Installation
+
 1. Repository klonen:
+
    ```bash
    git clone https://github.com/Changlai-Bao/Gesichtserkennung
    ```
 
 2. Abhängigkeiten installieren:
+
    ```bash
    python -m venv .venv
    pip install -r requirements.txt
@@ -34,10 +39,18 @@ Ein Python-Programm zur Gesichtserkennung mit OpenCV.
 
 4. Modelle in den `src/models`-Ordner kopieren
 
-## Verwendung
+## 🚀Verwendung
+
 ```bash
 python src/main.py
 ```
 
-## Lizenz
+## 📜Lizenz
+
 Dieses Projekt steht unter [MIT License](LICENSE)
+
+## 📫Kontakt
+
+- 📧 Email: [changlai.bao@outlook.com](mailto:changlai.bao@outlook.com)
+- 🐙 GitHub: [Changlai-Bao](https://github.com/Changlai-Bao)
+- 🌐 个人网站: [https://Changlai-Bao.github.io](https://Changlai-Bao.github.io)
