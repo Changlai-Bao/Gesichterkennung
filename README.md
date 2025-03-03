@@ -23,6 +23,7 @@ Ein Python-Programm zur Gesichtserkennung mit OpenCV.
 
 2. Abhängigkeiten installieren:
    ```bash
+   python -m venv .venv
    pip install -r requirements.txt
    ```
 
