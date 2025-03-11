@@ -2,12 +2,12 @@ import cv2
 import numpy as np
 
 # Haar Cascade Modell laden
-face_cascade = cv2.CascadeClassifier('models/haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('src/models/haarcascade_frontalface_default.xml')
 
 # DNN Modell laden
 dnn_net = cv2.dnn.readNetFromCaffe(
-    'models/deploy.prototxt',
-    'models/res10_300x300_ssd_iter_140000.caffemodel'
+    'src/models/deploy.prototxt',
+    'src/models/res10_300x300_ssd_iter_140000.caffemodel'
 )
 
 def detect_faces(frame):
