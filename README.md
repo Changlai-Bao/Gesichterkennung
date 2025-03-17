@@ -30,11 +30,11 @@ Ein Python-Programm zur Gesichtserkennung mit OpenCV.
    # Windows
    python -m venv .venv
    .venv\Scripts\activate
+   pip install -r requirements.txt
 
    #Linux
    python -m venv .venv_linux
    source .venv_linux/bin/activate
-
    pip install -r requirements.txt
    ```
 3. Modelle herunterladen:
