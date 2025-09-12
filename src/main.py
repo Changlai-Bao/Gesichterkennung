@@ -1,67 +1,58 @@
+# Erforderliche Bibliotheken importieren
 import cv2
-import numpy as np
+import mediapipe as mp
 
-# Haar Cascade Modell laden
-face_cascade = cv2.CascadeClassifier('src/models/haarcascade_frontalface_default.xml')
+# Initialisieren von MediaPipe Face Detection und Drawing Utilities
+mp_face_detection = mp.solutions.face_detection
+mp_drawing = mp.solutions.drawing_utils
 
-# DNN Modell laden
-dnn_net = cv2.dnn.readNetFromCaffe(
-    'src/models/deploy.prototxt',
-    'src/models/res10_300x300_ssd_iter_140000.caffemodel'
-)
+# Zugriff auf die Webcam
+# Die '0' steht normalerweise für die eingebaute Webcam.
+cap = cv2.VideoCapture(0)
 
-def detect_faces(frame):
-    # Haar Cascade Erkennung
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    
-    # DNN Erkennung
-    (h, w) = frame.shape[:2]
-    blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300), (104.0, 177.0, 123.0))
-    dnn_net.setInput(blob)
-    detections = dnn_net.forward()
-    
-    return faces, detections
+# Face Detection-Modell laden
+# min_detection_confidence: Mindest-Konfidenzwert (0.0 bis 1.0)
+with mp_face_detection.FaceDetection(
+    model_selection=0, min_detection_confidence=0.5) as face_detection:
 
-def draw_results(frame, faces, detections):
-    (h, w) = frame.shape[:2]
-    
-    # Haar Cascade Ergebnisse zeichnen
-    for (x, y, w, h) in faces:
-        cv2.circle(frame, (x + w//2, y + h//2), w//2, (0, 255, 0), 2)
-        cv2.putText(frame, "Gesicht (Haar)", (x, y-10),
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-    
-    # DNN Ergebnisse zeichnen
-    for i in range(0, detections.shape[2]):
-        confidence = detections[0, 0, i, 2]
-        
-        if confidence > 0.5:
-            box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-            (startX, startY, endX, endY) = box.astype("int")
-            # Rechteck zeichnen
-            cv2.rectangle(frame, (startX, startY), (endX, endY), (255, 0, 0), 2)
-            cv2.putText(frame, "Gesicht (DNN)", (startX, startY-10),
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
-
-def main():
-    cap = cv2.VideoCapture(0)
-    
-    while True:
-        ret, frame = cap.read()
-        if not ret:
+    # Endlosschleife, um Bilder von der Webcam kontinuierlich zu lesen
+    while cap.isOpened():
+        # Lese ein einzelnes Bild (Frame) von der Webcam
+        success, image = cap.read()
+        if not success:
+            print("Bild von der Kamera konnte nicht gelesen werden.")
             break
-            
-        faces, detections = detect_faces(frame)
-        draw_results(frame, faces, detections)
-        
-        cv2.imshow('Gesichtserkennung', frame)
-        
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-            
-    cap.release()
-    cv2.destroyAllWindows()
 
-if __name__ == "__main__":
-    main()
+        # Das Bild horizontal spiegeln, um eine intuitive Selbstansicht zu ermöglichen
+        image = cv2.flip(image, 1)
+
+        # Zur Leistungsverbesserung das Bild als nicht mehr beschreibbar markieren
+        image.flags.writeable = False
+        # Das Bild vom BGR-Format (OpenCV-Standard) in das RGB-Format konvertieren,
+        # da MediaPipe RGB-Bilder erwartet.
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        # Das RGB-Bild mit MediaPipe verarbeiten, um Gesichter zu erkennen
+        results = face_detection.process(image_rgb)
+
+        # Das Bild wieder als beschreibbar markieren, damit wir darauf zeichnen können
+        image.flags.writeable = True
+        
+        # Wenn Gesichter erkannt wurden
+        if results.detections:
+            # Durch alle erkannten Gesichter iterieren
+            for detection in results.detections:
+                # Zeichne die Erkennungs-Rechtecke auf das Bild
+                mp_drawing.draw_detection(image, detection)
+
+        # Zeige das resultierende Bild in einem Fenster an
+        cv2.imshow('MediaPipe Gesichtserkennung', image)
+
+        # Warte auf Tastendruck. Wenn 'q' gedrückt wird, beende die Schleife.
+        if cv2.waitKey(5) & 0xFF == ord('q'):
+            break
+
+# Gib die Webcam-Ressource frei
+cap.release()
+# Schließe alle OpenCV-Fenster
+cv2.destroyAllWindows()

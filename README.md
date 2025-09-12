@@ -1,21 +1,17 @@
 # Gesichtserkennung
 
-Ein Python-Programm zur Gesichtserkennung mit OpenCV.
+Dieses Projekt implementiert Gesichtserkennung mit MediaPipe.
 
 ## ✨Funktionen
 
-- Verwendet zwei verschiedene Modelle:
-  - `Haar Cascade`
-  - `Deep Neural Network (DNN)`
-- Zeichnet Kreise um erkannte Gesichter
-- Beschriftet Gesichter auf Deutsch
+- Zeichnet erkannte Gesichter
 - Beenden mit der Taste `q`
 
 ## 📁Voraussetzungen
 
-- `python>=3.13`
-- `numpy>=2.2.5`
-- `opencv-python>=4.11.0.86`
+- `python>=3.12`
+- `mediapipe>=0.10.14`
+- `opencv-python>=4.12.0.88`
 
 ## 🛠️Installation
 
